@@ -1,3 +1,7 @@
+document.addEventListener("reset", function() {
+    document.getElementById("results").innerHTML = "";
+});
+
 $(document).ready(function() {
 	$("#submitStock").click(function(event) {
 		event.preventDefault();
@@ -6,12 +10,15 @@ $(document).ready(function() {
 });
 
 function clickSubmit() {
+	
+	document.getElementById("results").innerHTML = "";
+
 	stock = $("#stockSymbol").val();
 	date_start = $("#date_start").val();
 	date_end = $("#date_end").val();
 	data_freq = $("#data_freq").val();
 	var stockArray = new Array();
-	var url = 'https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.historicaldata where symbol ="'+stock+'" and startDate="'+date_start+'" and endDate="'+date_end+'"&format=json&env=store://datatables.org/alltableswithkeys';
+	// var url = 'https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.historicaldata where symbol ="'+stock+'" and startDate="'+date_start+'" and endDate="'+date_end+'"&format=json&env=store://datatables.org/alltableswithkeys';
 	console.log(url);
 	//--------------------------------------------------------------------------
 	//edit load csv url to csv object, convert csv to json.
@@ -36,6 +43,10 @@ function clickSubmit() {
 	// }
 	// console.log(csv_url);
 	//--------------------------------------------------------------------------
+	// -------start "for" loop: --------- //
+
+for (index = 0; index < stockArray.length; index++) {
+    var url = 'https://query.yahooapis.com/v1/public/yql?q=select * from yahoo.finance.historicaldata where symbol ="'+stockArray[index]+'" and startDate="'+date_start+'" and endDate="'+date_end+'"&format=json&env=store://datatables.org/alltableswithkeys';
 	
 	$.ajax({
     	url: url,
@@ -182,32 +193,35 @@ function clickSubmit() {
                 console.log(JSON.stringify(adj_close, null, "\t"));
     		// Mean of Opens
             var opensTotal = 0;
-    		for (var i = 0; i < opens.length; i++) {
-    			opensTotal += opens[i] - 0;
-    		}
-    		var opensMean = opensTotal/opens.length;
-    		document.getElementById("opensMean").innerHTML = "Opens Mean = " + opensMean.toFixed(2);
+          for (var i = 0; i < opens.length; i++) {
+             opensTotal += opens[i] - 0;
+          }
+          var opensMean = opensTotal/opens.length;
+          document.getElementById("results").innerHTML = "Opens Mean = " + opensMean.toFixed(2) + "<br />";
+          
             // Mean of Highs
             var highsTotal = 0;
             for (var i = 0; i < highs.length; i++) {
                 highsTotal += highs[i] - 0;
             }
             var highsMean = highsTotal/highs.length;
-            document.getElementById("highsMean").innerHTML = "Highs Mean = " + highsMean.toFixed(2);
+            document.getElementById("results").innerHTML = "Highs Mean = " + highsMean.toFixed(2) + "<br />";
+            
             // Mean of Lows
             var lowsTotal = 0;
             for (var i = 0; i < lows.length; i++) {
                 lowsTotal += lows[i] - 0;
             }
             var lowsMean = lowsTotal/lows.length;
-            document.getElementById("lowsMean").innerHTML = "Lows Mean = " + lowsMean.toFixed(2);
+            document.getElementById("results").innerHTML = "Lows Mean = " + lowsMean.toFixed(2) + "<br />";
+            
             // Mean of Volume
             var volumeTotal = 0;
             for (var i = 0; i < volume.length; i++) {
                 volumeTotal += volume[i] - 0;
             }
             var volumeMean = volumeTotal/volume.length;
-            document.getElementById("volumeMean").innerHTML = "Volume Mean = " + volumeMean.toFixed(0);
+            document.getElementById("results").innerHTML = "Volume Mean = " + volumeMean.toFixed(0) + "<br />";
             // Mean of Adjusted Closes
             var adj_closeTotal = 0;
             var stockReturn = new Array();
@@ -222,14 +236,20 @@ function clickSubmit() {
             for (var i = 0; i < stockReturn.length; i++) {
                 sumReturn += stockReturn[i] - 0;
             }
-            var meanReturn = sumReturn/stockReturn.length;
-            document.getElementById("adj_closeMean").innerHTML = "Adjusted Close Mean = " + adj_closeMean.toFixed(2);
-            document.getElementById("meanReturn").innerHTML = "Mean Return = " + meanReturn;
-    		// this.setState({data: data});
+            
+            sumReturn = sumReturn - 1;
+	    var meanReturn = sumReturn/stockReturn.length;
+
+	    document.getElementById("results").innerHTML = "Adjusted Close Mean = " + adj_closeMean.toFixed(2) + "<br />";
+	    document.getElementById("results").innerHTML = "Total Return = " + ( sumReturn*100).toFixed(2) + "%" + "<br />";
+	    // this.setState({data: data});
+	    document.getElementById("results").innerHTML += "<br />";
     	},
     	error: function(xhr, status, err) {
     		console.error(url, status, err.toString());
     	}
-
     });
+}
+    console.log(stockArray);
+    console.log(url);
 }
