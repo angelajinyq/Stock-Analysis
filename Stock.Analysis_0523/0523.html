@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
+    <title>Stock Analysis</title>
+
+    <style type="text/css">
+        * {
+            font-family: arial;
+        }
+    </style>
+    <style>
+        svg {
+            height: 400px;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+
+<!--     <link rel="stylesheet" type="text/css" href="dc.min.css/">
+ -->    <link rel="stylesheet" type="text/css" href="dc.css"/>
+
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+    <!--<link rel="stylesheet" type="text/css" href="Java-Script/bootstrap.min.css">-->
+    <!--<script type="text/javascript" src="Java-Script/bootstrap.min.js"></script> -->
+
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="d3.js"></script>
+
+
+    <script type="text/javascript" src="crossfilter1.js"></script>
+    <script type="text/javascript" src="dc.js"></script>
+    <script type="text/javascript" src="dc.min.js"></script>
+
+    <script src="simple_statistics.js"></script>
+
+    <script src="math.js"></script>
+    <script src="may23.js"></script>
+
+
+
+</head>
+
+<body>
+<h1>Stock Analysis</h1>
+<form method="get" action="action_page.php">
+    <fieldset>
+        <p>
+            Please enter your stock symbol:
+            <input id="stockSymbol" type="text" name="symbol" value="">
+        </p>
+        <p>
+            Please select a time period
+            <br/>
+            Starting Time: <input id="date_start" type="date" name="start" value="">
+            Ending Time: <input id="date_end" type="date" name="end" value="">
+        </p>
+        <p>
+            Please indicate data frequency (d for daily data, w for weekly, m for monthly, default: daily):
+            <select id="data_freq" name="symbol">
+                <option value = "d">Daily</option>
+                <option value = "w">Weekly</option>
+                <option value = "m">Monthly</option>
+            </select>
+        </p>
+        <p>
+            Please enter a risk free rate (default 2%):
+            <input id="Rf" type="text" name="symbol" value="">
+        </p>
+        <input id="submitStock" type="submit" value="Submit"/>
+        <input type="reset" value="Reset"/>
+        <button class='gen_btn'>Generate File</button>
+    </fieldset>
+</form>
+<form>
+    <fieldset>
+        <p id="results"> </p>
+        <!--
+        <p id="opensMean"></p>
+        <p id="highsMean"></p>
+        <p id="lowsMean"></p>
+        <p id="volumeMean"></p>
+        <p id="adj_closeMean"></p>
+        <p id="meanReturn"></p>
+        -->
+    </fieldset>
+    <!-- make three box for date instead of one -->
+    <!-- when user choose a specific ticker type, shows its time period prefilled in the earilest and latest date, ignore invalid date, start with the earilest -->
+</form>
+
+
+<div class="row">
+    <div id="chart1">
+        <!--<strong>Daily Index Price & Volume/500,000 Chart</strong>-->
+        <!--<span class="reset" style="display: none;">range: <span class="filter"></span></span>-->
+        <!--<a class="reset" href="javascript:moveChart.filterAll();volumeChart.filterAll();dc.redrawAll();"-->
+        <!--style="display: none;">reset</a>-->
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<div class="row">
+    <div id="chart2">
+    </div>
+</div>
+
+
+<br/>
+</body>
+</html>
